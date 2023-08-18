@@ -1,0 +1,105 @@
+﻿@model IEnumerable<ToDoItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>My Contacts</h1>
+@if (Model.Count() > 0 && ViewBag.ShowCompleted != true)
+{
+    <div class="row">
+        <div class="col-12 text-end mb-2">
+            <a class="btn btn-primary rounded-pill" asp-action="create" asp-controller="ToDoItems">Add<i class="bi bi-list-task ps-2"></i></a>
+        </div>
+    </div>
+}
+<div class="row g-2">
+    <div id="search-filter-functions" class="col-12 col-md-4 sideNav">
+        <form asp-action="Index" asp-controller="ToDoitems" method="post">
+            @if (!ViewBag.ShowCompleted)
+            {
+                <div class="input-group">
+                    <input type="hidden" value="true" name="showCompleted" />
+                    <input type="submit" class="btn btn-primary rounded-pill"
+                           value="Show Completed Items" />
+                </div>
+            }
+            else
+            {
+                <div class="input-group">
+                    <input type="hidden" value="false" name="showCompleted" />
+                    <input type="submit" class="btn btn-primary rounded-pill"
+                           value="Show Unfinished Items" />
+                </div>
+            }
+        </form>
+        @* <form asp-action="Index" asp-controller="ToDoItems" method="post">
+        <button class="btn btn-primary mt-5">
+        <label class="form-check-label fw-bold">Show Completed Items</label>
+        <input name="showCompleted" class="form-check-input" type="checkbox"
+        value="true" onchange="this.form.submit()" />
+        </button>
+        </form> *@
+    </div>
+    <div id="contacts-display" class="col-12 col-md-8">
+        <div class="row row-cols-1 g-3">
+            @if (Model.Count() > 0)
+            {
+                @*Loop over and display the Contacts for the logged in user*@
+                @foreach (ToDoItem toDoItem in Model)
+                {
+                    <div class="col">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@toDoItem.Name</h5>
+                                        @if (toDoItem.DueDate is not null && !ViewBag.ShowCompleted)
+                                        {
+                                            <div class="card-text">
+                                                <span class="fw-bold me-2">Due Date:</span>@toDoItem.DueDate
+                                            </div>
+                                        }
+                                        <div class="fs-4">
+                                            <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@toDoItem.Id"><i class="bi bi-pencil-fill "></i></a>
+                                            <a class="me-3 editIcons" asp-action="Delete" asp-route-id="@toDoItem.Id"><i class="bi bi-trash-fill text-danger "></i></a>
+                                        </div>
+                                        <div>
+                                            @*Display Accessories*@
+                                            @foreach (Accessory accessory in toDoItem.Accessories)
+                                            {
+                                                <span class="badge rounded-pill border border-1 text-dark fw-normal">@accessory.Name</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                @* If there are no ToDoItems, display button to add one*@
+                <div class="col">
+                    <div class="card mb-3">
+                        <div class="row g-0">
+                            <div class="col">
+                                <div class="card-body">
+                                    <h5 class="card-title">No To-Do Items Found</h5>
+                                    <div class="card-text">
+                                        <div class="row">
+                                            <div class="col-12 mb-2">
+                                                <a class="btn btn-lg btn-primary rounded-pill px-4" asp-action="create" asp-controller="ToDoItems">Make One?<i class="bi bi-list-task ps-2"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

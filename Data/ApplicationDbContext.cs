@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MindPalace.Models;
 
 namespace MindPalace.Data
 {
@@ -9,5 +10,7 @@ namespace MindPalace.Data
             : base(options)
         {
         }
+        public virtual DbSet<ToDoItem> ToDoItems { get; set; } = default!;
+        public virtual DbSet<Accessory> Accessories { get; set; } = default!;
     }
 }

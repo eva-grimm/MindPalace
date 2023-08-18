@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MindPalace.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MindPalace.Data
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230818174606_0003-Scaffolding-Added")]
+    partial class _0003ScaffoldingAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,7 +386,7 @@ namespace MindPalace.Data
             modelBuilder.Entity("MindPalace.Models.Accessory", b =>
                 {
                     b.HasOne("MindPalace.Models.AppUser", "AppUser")
-                        .WithMany("Accessories")
+                        .WithMany()
                         .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
@@ -392,17 +395,10 @@ namespace MindPalace.Data
             modelBuilder.Entity("MindPalace.Models.ToDoItem", b =>
                 {
                     b.HasOne("MindPalace.Models.AppUser", "AppUser")
-                        .WithMany("ToDoItems")
+                        .WithMany()
                         .HasForeignKey("AppUserId");
 
                     b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("MindPalace.Models.AppUser", b =>
-                {
-                    b.Navigation("Accessories");
-
-                    b.Navigation("ToDoItems");
                 });
 #pragma warning restore 612, 618
         }
